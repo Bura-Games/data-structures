@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="plugin-moonwave plugin-id-moonwave">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v2.3.1">
+<title data-rh="true">MinPriorityQueue | Data Structures</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://Bura-Games.github.io/game-dev-structures/api/MinPriorityQueue"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="MinPriorityQueue | Data Structures"><meta data-rh="true" name="description" content="In a min priority queue, elements are inserted by the priority in
+descending order and the maximum value is always removed first from the
+queue.
+
+This uses a sorted array internally for the maximum speed possible when
+inserting, popping, and removing by priority."><meta data-rh="true" property="og:description" content="In a min priority queue, elements are inserted by the priority in
+descending order and the maximum value is always removed first from the
+queue.
+
+This uses a sorted array internally for the maximum speed possible when
+inserting, popping, and removing by priority."><link data-rh="true" rel="canonical" href="https://Bura-Games.github.io/game-dev-structures/api/MinPriorityQueue"><link data-rh="true" rel="alternate" href="https://Bura-Games.github.io/game-dev-structures/api/MinPriorityQueue" hreflang="en"><link data-rh="true" rel="alternate" href="https://Bura-Games.github.io/game-dev-structures/api/MinPriorityQueue" hreflang="x-default"><link rel="stylesheet" href="/game-dev-structures/assets/css/styles.e1adec2f.css">
+<link rel="preload" href="/game-dev-structures/assets/js/runtime~main.7585aafe.js" as="script">
+<link rel="preload" href="/game-dev-structures/assets/js/main.82188d18.js" as="script">
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
+<div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/game-dev-structures/"><b class="navbar__title text--truncate">Data Structures</b></a><a class="navbar__item navbar__link" href="/game-dev-structures/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/game-dev-structures/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/Bura-Games/game-dev-structures" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="searchBox_ZlJk"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input type="search" id="search_input_react" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" aria-expanded="false" href="/game-dev-structures/api/LRUCache">Caches</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" aria-expanded="false" href="/game-dev-structures/api/LiveRandom">Random</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" aria-expanded="true" href="/game-dev-structures/api/MaxPriorityQueue">Queues</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/game-dev-structures/api/MaxPriorityQueue">​Max​Priority​Queue</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/game-dev-structures/api/MinPriorityQueue">​Min​Priority​Queue</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" aria-expanded="false" href="/game-dev-structures/api/SimpleTrie">Tries</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" aria-expanded="false" href="/game-dev-structures/api/SortedArray">Arrays</a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/game-dev-structures/api/Types">​Types</a></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">Min</span><span style="display:inline-block">Priority</span><span style="display:inline-block">Queue</span></h1><div class="luaClassTags_EipM"><span class="docTag__6UZ" style="border-color:#ff793f;color:#ff793f">Supports Debug Mode</span><span class="docTag__6UZ" style="border-color:#925FB9;color:#925FB9">Supports __len</span><span class="docTag__6UZ" style="border-color:#2b8ab6;color:#2b8ab6">Supports __tostring</span></div><div>
+<p>
+  In a min priority queue, elements are inserted by the priority in
+  descending order and the maximum value is always removed first from the
+  queue.
+</p>
+<p>
+  This uses a sorted array internally for the maximum speed possible when
+  inserting, popping, and removing by priority.
+</p>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a href="#properties" class="hash-link" aria-label="Direct link to Properties" title="Direct link to Properties">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Array"><code style="text-decoration:none">Array</code><a href="#Array" class="hash-link" aria-label="Direct link to Array" title="Direct link to Array">​</a></h3><span class="badge_Ba2I" style="color:#e74c3c"><span class="badgeTooltip_cWXP">This item is read only and cannot be modified.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" height="300px" width="300px" fill="#e74c3c" x="0px" y="0px" viewBox="0 0 96 96"><path d="M70.354,15.662h-7.496H25.566c-3.282,0-5.19-0.776-5.728-1.169v-1.456c0.538-0.393,2.445-1.168,5.728-1.168h46.479V8H25.566  c-4.776,0-9.594,1.468-9.594,4.747v61.458C15.972,86.645,20.328,88,37.495,88h42.535V15.662H70.354z"></path></svg> <!-- -->Read Only</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L100"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->.<!-- -->Array<!-- -->:<!-- --> </code> <code class="blue_P4bS">ReadonlyArray</code><code class="op_lSLc">&lt;</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/game-dev-structures/api/Types#HeapEntry">HeapEntry</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code><code class="op_lSLc">&gt;</code></div><div>
+<p>An element with all your elements. This is technically a sorted array.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Length"><code style="text-decoration:none">Length</code><a href="#Length" class="hash-link" aria-label="Direct link to Length" title="Direct link to Length">​</a></h3><span class="badge_Ba2I" style="color:#e74c3c"><span class="badgeTooltip_cWXP">This item is read only and cannot be modified.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" height="300px" width="300px" fill="#e74c3c" x="0px" y="0px" viewBox="0 0 96 96"><path d="M70.354,15.662h-7.496H25.566c-3.282,0-5.19-0.776-5.728-1.169v-1.456c0.538-0.393,2.445-1.168,5.728-1.168h46.479V8H25.566  c-4.776,0-9.594,1.468-9.594,4.747v61.458C15.972,86.645,20.328,88,37.495,88h42.535V15.662H70.354z"></path></svg> <!-- -->Read Only</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L108"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->.<!-- -->Length<!-- -->:<!-- --> </code> <code class="blue_P4bS">integer</code></div><div>
+<p>The length of the <code>MinPriorityQueue</code>.</p>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a href="#new" class="hash-link" aria-label="Direct link to new" title="Direct link to new">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L139"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/game-dev-structures/api/MinPriorityQueue">MinPriorityQueue</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code></div><div>
+<p>Creates a new MinPriorityQueue.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Is"><code style="text-decoration:none">Is</code><a href="#Is" class="hash-link" aria-label="Direct link to Is" title="Direct link to Is">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L160"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->.</code><code class="green_DgR4">Is</code><code>(</code><code>value<!-- -->: </code><code class="blue_P4bS">unknown</code><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>Checks if <code>value</code> is literally a <code>MinPriorityQueue</code>.</p>
+<pre class="language-lua"><code class="language-lua">MinPriorityQueue<span class="token punctuation">.</span><span class="token function">Is</span><span class="token punctuation">(</span>MinPriorityQueue<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">-- true</span>
+MinPriorityQueue<span class="token punctuation">.</span><span class="token function">Is</span><span class="token punctuation">(</span>MinPriorityQueue<span class="token punctuation">)</span> <span class="token comment">-- false</span>
+MinPriorityQueue<span class="token punctuation">.</span><span class="token function">Is</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token comment">-- false</span>
+MinPriorityQueue<span class="token punctuation">.</span><span class="token function">Is</span><span class="token punctuation">(</span><span class="token keyword">nil</span><span class="token punctuation">)</span> <span class="token comment">-- false</span>
+MinPriorityQueue<span class="token punctuation">.</span><span class="token function">Is</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">-- false</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="instanceof"><code style="text-decoration:none">instanceof</code><a href="#instanceof" class="hash-link" aria-label="Direct link to instanceof" title="Direct link to instanceof">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L172"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->.</code><code class="green_DgR4">instanceof</code><code>(</code><code>value<!-- -->: </code><code class="blue_P4bS">unknown</code><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>An alias for <a href="/game-dev-structures/api/MinPriorityQueue#Is">MinPriorityQueue.Is</a>.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Insert"><code style="text-decoration:none">Insert</code><a href="#Insert" class="hash-link" aria-label="Direct link to Insert" title="Direct link to Insert">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L226"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->:</code><code class="green_DgR4">Insert</code><code>(</code><div class="inset_uKQm"><div><code>value<!-- -->: </code><code class="blue_P4bS">T</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The value to insert.</p>
+</span></span></div><div><code>priority<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+<p>The priority of the value.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">integer</code><span class="inlineDescription_G7Er">-- <span>
+<p>The index of the element in the <code>MinPriorityQueue</code>.</p>
+</span></span></div><div>
+<p>Adds an element to the <code>MinPriorityQueue</code> with an associated priority.</p>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>DebugTypeError</td><td>Thrown when you are using debug mode and you pass an incorrect type.</td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="InsertWithPriority"><code style="text-decoration:none">InsertWithPriority</code><a href="#InsertWithPriority" class="hash-link" aria-label="Direct link to InsertWithPriority" title="Direct link to InsertWithPriority">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L237"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->:</code><code class="green_DgR4">InsertWithPriority</code><code>(</code><div class="inset_uKQm"><div><code>value<!-- -->: </code><code class="blue_P4bS">T</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The value to insert.</p>
+</span></span></div><div><code>priority<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+<p>The priority of the value.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">integer</code><span class="inlineDescription_G7Er">-- <span>
+<p>The index of the element in the <code>MinPriorityQueue</code>.</p>
+</span></span></div><div>
+<p>An alias for <a href="/game-dev-structures/api/MinPriorityQueue#Insert">MinPriorityQueue.Insert</a>.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="ChangePriority"><code style="text-decoration:none">ChangePriority</code><a href="#ChangePriority" class="hash-link" aria-label="Direct link to ChangePriority" title="Direct link to ChangePriority">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L255"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->:</code><code class="green_DgR4">ChangePriority</code><code>(</code><div class="inset_uKQm"><div><code>value<!-- -->: </code><code class="blue_P4bS">T</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The value to change the priority of.</p>
+</span></span></div><div><code>newPriority<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The new priority of the value.</p>
+</span></span></div><div><code>equalityCheck?<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/game-dev-structures/api/Types#ComparisonFunction">ComparisonFunction</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code><span class="inlineDescription_G7Er">-- <span>
+<p>The function used to check if two values are equal. If unprovided, we'll default to <code>==</code>.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">integer</code><span class="inlineDescription_G7Er">-- <span>
+<p>The index of the element in the <code>MinPriorityQueue</code>.</p>
+</span></span></div><div>
+<p>Allows you to change the priority of an element in the <code>MinPriorityQueue</code>.</p>
+<div class="admonition admonition-info alert alert--info">
+  <div class="admonition-heading">
+    <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16">
+          <path d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
+        </svg></span>Time Complexity</h5>
+  </div>
+  <div class="admonition-content">
+    <p>
+      This function has kind of a funky time complexity on account of it treating
+      your entries as immutable.
+    </p>
+  </div>
+</div>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>DebugTypeError</td><td>Thrown when you are using debug mode and you pass an incorrect type.</td></tr><tr><td>ValueNotFoundError</td><td>Thrown when you try to change the priority of an element that doesn&#x27;t exist.</td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetFirstPriority"><code style="text-decoration:none">GetFirstPriority</code><a href="#GetFirstPriority" class="hash-link" aria-label="Direct link to GetFirstPriority" title="Direct link to GetFirstPriority">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L310"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->:</code><code class="green_DgR4">GetFirstPriority</code><code>(</code><code>) → </code><code class="blue_P4bS">number?</code></div><div>
+<p>
+  Gets the priority of the first value in the <code>MinPriorityQueue</code>. This is the
+  value that will be removed last.
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetLastPriority"><code style="text-decoration:none">GetLastPriority</code><a href="#GetLastPriority" class="hash-link" aria-label="Direct link to GetLastPriority" title="Direct link to GetLastPriority">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L319"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->:</code><code class="green_DgR4">GetLastPriority</code><code>(</code><code>) → </code><code class="blue_P4bS">number?</code></div><div>
+<p>
+  Gets the priority of the last value in the <code>MinPriorityQueue</code>. This is the
+  value that will be removed first.
+</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="PopElement"><code style="text-decoration:none">PopElement</code><a href="#PopElement" class="hash-link" aria-label="Direct link to PopElement" title="Direct link to PopElement">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L333"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->:</code><code class="green_DgR4">PopElement</code><code>(</code><div class="inset_uKQm"><div><code>onlyValue?<!-- -->: </code><code class="blue_P4bS">boolean</code><span class="inlineDescription_G7Er">-- <span>
+<p>Whether or not to return the value of the element.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/game-dev-structures/api/Types#HeapEntry">HeapEntry</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code><code class="op_lSLc"> | </code><code class="blue_P4bS">T</code><code class="op_lSLc"> | </code><code class="blue_P4bS">nil</code></div><div>
+<p>
+  Pops an element from the <code>MinPriorityQueue</code>. This removes the last element
+  in the array.
+</p>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>DebugTypeError</td><td>Thrown when you are using debug mode and you pass an incorrect type.</td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="RemovePriority"><code style="text-decoration:none">RemovePriority</code><a href="#RemovePriority" class="hash-link" aria-label="Direct link to RemovePriority" title="Direct link to RemovePriority">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L365"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->:</code><code class="green_DgR4">RemovePriority</code><code>(</code><div class="inset_uKQm"><div><code>priority<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+<p>The priority of the element to remove.</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Removes an element from the <code>MinPriorityQueue</code> with a specific priority.</p>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>DebugTypeError</td><td>Thrown when you are using debug mode and you pass an incorrect type.</td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="RemoveValue"><code style="text-decoration:none">RemoveValue</code><a href="#RemoveValue" class="hash-link" aria-label="Direct link to RemoveValue" title="Direct link to RemoveValue">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L402"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->:</code><code class="green_DgR4">RemoveValue</code><code>(</code><div class="inset_uKQm"><div><code>value<!-- -->: </code><code class="blue_P4bS">T</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The value of the element to remove.</p>
+</span></span></div><div><code>equalityCheck?<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/game-dev-structures/api/Types#ComparisonFunction">ComparisonFunction</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code><span class="inlineDescription_G7Er">-- <span>
+<p>The function used to check if two values are equal. If unprovided, we'll default to <code>==</code>.</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Removes an element from the <code>MinPriorityQueue</code> with a specific value.</p>
+<div class="admonition admonition-warning alert alert--danger">
+  <div class="admonition-heading">
+    <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16">
+          <path d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.06-1.78C8.18 5.31 8.68 2.45 5.05.32L5.03.3l.02.01z"></path>
+        </svg></span>Time Complexity</h5>
+  </div>
+  <div class="admonition-content">
+    <p>
+      This function does <em>NOT</em> use the binary search algorithm. It is uses a
+      linear search (may change in the future) so it has the O(n) time
+      complexity.
+    </p>
+  </div>
+</div>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>DebugTypeError</td><td>Thrown when you are using debug mode and you pass an incorrect type.</td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Clear"><code style="text-decoration:none">Clear</code><a href="#Clear" class="hash-link" aria-label="Direct link to Clear" title="Direct link to Clear">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L444"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->:</code><code class="green_DgR4">Clear</code><code>(</code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/game-dev-structures/api/MinPriorityQueue">MinPriorityQueue</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code></div><div>
+<p>Clears the entire <code>MinPriorityQueue</code>.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Contains"><code style="text-decoration:none">Contains</code><a href="#Contains" class="hash-link" aria-label="Direct link to Contains" title="Direct link to Contains">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Queues/MinPriorityQueue.luau#L465"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>MinPriorityQueue<!-- -->:</code><code class="green_DgR4">Contains</code><code>(</code><div class="inset_uKQm"><div><code>value<!-- -->: </code><code class="blue_P4bS">T</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The value of the element to remove.</p>
+</span></span></div><div><code>equalityCheck?<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/game-dev-structures/api/Types#ComparisonFunction">ComparisonFunction</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">T</code><code class="op_lSLc">&gt;</code><span class="inlineDescription_G7Er">-- <span>
+<p>The function used to check if two values are equal. If unprovided, we'll default to <code>==</code>.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>Checks if the <code>MinPriorityQueue</code> contains a specific value.</p>
+<div class="admonition admonition-warning alert alert--danger">
+  <div class="admonition-heading">
+    <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16">
+          <path d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.06-1.78C8.18 5.31 8.68 2.45 5.05.32L5.03.3l.02.01z"></path>
+        </svg></span>Time Complexity</h5>
+  </div>
+  <div class="admonition-content">
+    <p>
+      This function does <em>NOT</em> use the binary search algorithm. It is uses a
+      linear search (may change in the future) so it has the O(n) time
+      complexity.
+    </p>
+  </div>
+</div>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>DebugTypeError</td><td>Thrown when you are using debug mode and you pass an incorrect type.</td></tr></tbody></table></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;new&quot;,
+            &quot;desc&quot;: &quot;Creates a new MinPriorityQueue.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;MinPriorityQueue&lt;T&gt;&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 139,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Is&quot;,
+            &quot;desc&quot;: &quot;Checks if `value` is literally a `MinPriorityQueue`.\n\n```lua\nMinPriorityQueue.Is(MinPriorityQueue.new()) -- true\nMinPriorityQueue.Is(MinPriorityQueue) -- false\nMinPriorityQueue.Is({}) -- false\nMinPriorityQueue.Is(nil) -- false\nMinPriorityQueue.Is(1) -- false\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;unknown&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 160,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;instanceof&quot;,
+            &quot;desc&quot;: &quot;An alias for [MinPriorityQueue.Is].&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;unknown&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 172,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Insert&quot;,
+            &quot;desc&quot;: &quot;Adds an element to the `MinPriorityQueue` with an associated priority.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;The value to insert.&quot;,
+                    &quot;lua_type&quot;: &quot;T&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;priority&quot;,
+                    &quot;desc&quot;: &quot;The priority of the value.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;The index of the element in the `MinPriorityQueue`.&quot;,
+                    &quot;lua_type&quot;: &quot;integer&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;DebugTypeError&quot;,
+                    &quot;desc&quot;: &quot;Thrown when you are using debug mode and you pass an incorrect type.&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 226,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;InsertWithPriority&quot;,
+            &quot;desc&quot;: &quot;An alias for [MinPriorityQueue.Insert].&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;The value to insert.&quot;,
+                    &quot;lua_type&quot;: &quot;T&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;priority&quot;,
+                    &quot;desc&quot;: &quot;The priority of the value.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;The index of the element in the `MinPriorityQueue`.&quot;,
+                    &quot;lua_type&quot;: &quot;integer&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 237,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;ChangePriority&quot;,
+            &quot;desc&quot;: &quot;Allows you to change the priority of an element in the `MinPriorityQueue`.\n\n:::info Time Complexity\nThis function has kind of a funky time complexity on account of it treating\nyour entries as immutable.\n:::&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;The value to change the priority of.&quot;,
+                    &quot;lua_type&quot;: &quot;T&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;newPriority&quot;,
+                    &quot;desc&quot;: &quot;The new priority of the value.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;equalityCheck?&quot;,
+                    &quot;desc&quot;: &quot;The function used to check if two values are equal. If unprovided, we&#x27;ll default to `==`.&quot;,
+                    &quot;lua_type&quot;: &quot;ComparisonFunction&lt;T&gt;&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;The index of the element in the `MinPriorityQueue`.&quot;,
+                    &quot;lua_type&quot;: &quot;integer&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;DebugTypeError&quot;,
+                    &quot;desc&quot;: &quot;Thrown when you are using debug mode and you pass an incorrect type.&quot;
+                },
+                {
+                    &quot;lua_type&quot;: &quot;ValueNotFoundError&quot;,
+                    &quot;desc&quot;: &quot;Thrown when you try to change the priority of an element that doesn&#x27;t exist.&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 255,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetFirstPriority&quot;,
+            &quot;desc&quot;: &quot;Gets the priority of the first value in the `MinPriorityQueue`. This is the\nvalue that will be removed last.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;number?&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 310,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetLastPriority&quot;,
+            &quot;desc&quot;: &quot;Gets the priority of the last value in the `MinPriorityQueue`. This is the\nvalue that will be removed first.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;number?&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 319,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;PopElement&quot;,
+            &quot;desc&quot;: &quot;Pops an element from the `MinPriorityQueue`. This removes the last element\nin the array.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;onlyValue?&quot;,
+                    &quot;desc&quot;: &quot;Whether or not to return the value of the element.&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;HeapEntry&lt;T&gt; | T | nil&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;DebugTypeError&quot;,
+                    &quot;desc&quot;: &quot;Thrown when you are using debug mode and you pass an incorrect type.&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 333,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;RemovePriority&quot;,
+            &quot;desc&quot;: &quot;Removes an element from the `MinPriorityQueue` with a specific priority.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;priority&quot;,
+                    &quot;desc&quot;: &quot;The priority of the element to remove.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;DebugTypeError&quot;,
+                    &quot;desc&quot;: &quot;Thrown when you are using debug mode and you pass an incorrect type.&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 365,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;RemoveValue&quot;,
+            &quot;desc&quot;: &quot;Removes an element from the `MinPriorityQueue` with a specific value.\n\n:::warning Time Complexity\nThis function does _NOT_ use the binary search algorithm. It is uses a\nlinear search (may change in the future) so it has the O(n) time\ncomplexity.\n:::&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;The value of the element to remove.&quot;,
+                    &quot;lua_type&quot;: &quot;T&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;equalityCheck?&quot;,
+                    &quot;desc&quot;: &quot;The function used to check if two values are equal. If unprovided, we&#x27;ll default to `==`.&quot;,
+                    &quot;lua_type&quot;: &quot;ComparisonFunction&lt;T&gt;&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;DebugTypeError&quot;,
+                    &quot;desc&quot;: &quot;Thrown when you are using debug mode and you pass an incorrect type.&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 402,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Clear&quot;,
+            &quot;desc&quot;: &quot;Clears the entire `MinPriorityQueue`.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;MinPriorityQueue&lt;T&gt;&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 444,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Contains&quot;,
+            &quot;desc&quot;: &quot;Checks if the `MinPriorityQueue` contains a specific value.\n\n:::warning Time Complexity\nThis function does _NOT_ use the binary search algorithm. It is uses a\nlinear search (may change in the future) so it has the O(n) time\ncomplexity.\n:::&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;The value of the element to remove.&quot;,
+                    &quot;lua_type&quot;: &quot;T&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;equalityCheck?&quot;,
+                    &quot;desc&quot;: &quot;The function used to check if two values are equal. If unprovided, we&#x27;ll default to `==`.&quot;,
+                    &quot;lua_type&quot;: &quot;ComparisonFunction&lt;T&gt;&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;DebugTypeError&quot;,
+                    &quot;desc&quot;: &quot;Thrown when you are using debug mode and you pass an incorrect type.&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 465,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [
+        {
+            &quot;name&quot;: &quot;Array&quot;,
+            &quot;desc&quot;: &quot;An element with all your elements. This is technically a sorted array.&quot;,
+            &quot;lua_type&quot;: &quot;ReadonlyArray&lt;HeapEntry&lt;T&gt;&gt;&quot;,
+            &quot;readonly&quot;: true,
+            &quot;source&quot;: {
+                &quot;line&quot;: 100,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Length&quot;,
+            &quot;desc&quot;: &quot;The length of the `MinPriorityQueue`.&quot;,
+            &quot;lua_type&quot;: &quot;integer&quot;,
+            &quot;readonly&quot;: true,
+            &quot;source&quot;: {
+                &quot;line&quot;: 108,
+                &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+            }
+        }
+    ],
+    &quot;types&quot;: [],
+    &quot;name&quot;: &quot;MinPriorityQueue&quot;,
+    &quot;desc&quot;: &quot;In a min priority queue, elements are inserted by the priority in\ndescending order and the maximum value is always removed first from the\nqueue.\n\nThis uses a sorted array internally for the maximum speed possible when\ninserting, popping, and removing by priority.&quot;,
+    &quot;tags&quot;: [
+        &quot;Supports Debug Mode&quot;,
+        &quot;Supports __len&quot;,
+        &quot;Supports __tostring&quot;
+    ],
+    &quot;source&quot;: {
+        &quot;line&quot;: 88,
+        &quot;path&quot;: &quot;src/Queues/MinPriorityQueue.luau&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#Array" class="table-of-contents__link toc-highlight">Array</a></li><li><a href="#Length" class="table-of-contents__link toc-highlight">Length</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#ChangePriority" class="table-of-contents__link toc-highlight">:ChangePriority</a></li><li><a href="#Clear" class="table-of-contents__link toc-highlight">:Clear</a></li><li><a href="#Contains" class="table-of-contents__link toc-highlight">:Contains</a></li><li><a href="#GetFirstPriority" class="table-of-contents__link toc-highlight">:GetFirstPriority</a></li><li><a href="#GetLastPriority" class="table-of-contents__link toc-highlight">:GetLastPriority</a></li><li><a href="#Insert" class="table-of-contents__link toc-highlight">:Insert</a></li><li><a href="#InsertWithPriority" class="table-of-contents__link toc-highlight">:InsertWithPriority</a></li><li><a href="#PopElement" class="table-of-contents__link toc-highlight">:PopElement</a></li><li><a href="#RemovePriority" class="table-of-contents__link toc-highlight">:RemovePriority</a></li><li><a href="#RemoveValue" class="table-of-contents__link toc-highlight">:RemoveValue</a></li><li><a href="#instanceof" class="table-of-contents__link toc-highlight">.instanceof</a></li><li><a href="#Is" class="table-of-contents__link toc-highlight">.Is</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 Bura Games. Made with Moonwave.</div></div></div></footer></div>
+<script src="/game-dev-structures/assets/js/runtime~main.7585aafe.js"></script>
+<script src="/game-dev-structures/assets/js/main.82188d18.js"></script>
+</body>
+</html>

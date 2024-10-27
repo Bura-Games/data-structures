@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="plugin-moonwave plugin-id-moonwave">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v2.3.1">
+<title data-rh="true">LRUCache | Data Structures</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://Bura-Games.github.io/game-dev-structures/api/LRUCache"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="LRUCache | Data Structures"><meta data-rh="true" name="description" content="The `LRUCache` (Least Recently Used Cache) class implements a fixed-size
+cache that stores key-value pairs. It uses the Least Recently Used eviction
+policy to manage the cache content when the capacity is exceeded. This
+means that when the cache reaches its capacity, it will remove the least
+recently accessed item to make room for new entries.
+
+### Features:
+
+- **Fast Retrieval:** Quickly access cached items using the `Get` method.
+- **Automatic Eviction:** Automatically evicts the least recently used item
+  when adding new entries beyond capacity.
+- **Mutable Size:** Check the current number of items with `Size`.
+- **Capacity Limit:** Set a maximum capacity to control memory usage.
+- **Supports Debug Mode:** You can set `_G.__DEV__` to `true` to enable
+  debug mode. This has to be done BEFORE requiring the module.
+- **Supports `__len`:** Use the length operator `#` to get the cache size.
+- **Supports `__tostring`:** You can call `tostring` on the cache.
+
+### Example Usage:
+
+```lua
+_G.__DEV__ = RunService:IsStudio()
+local DataStructures = require(&quot;DataStructures&quot;)
+
+-- Create a new cache with a capacity of 2
+local lruCache = DataStructures.LRUCache.new(2)
+
+-- Add some key-value pairs
+lruCache:Set(&quot;apple&quot;, &quot;red&quot;)
+lruCache:Set(&quot;banana&quot;, &quot;yellow&quot;)
+
+print(lruCache:Get(&quot;apple&quot;)) -- Output: &quot;red&quot;
+print(lruCache:Get(&quot;banana&quot;)) -- Output: &quot;yellow&quot;
+
+-- Add another item, exceeding the capacity
+lruCache:Set(&quot;cherry&quot;, &quot;red&quot;)
+
+-- Since &quot;apple&quot; was least recently used, it gets evicted
+print(lruCache:Get(&quot;apple&quot;)) -- Output: nil
+print(lruCache:Get(&quot;cherry&quot;)) -- Output: &quot;red&quot;
+
+-- Check the size of the cache
+print(#lruCache, lruCache.Size) -- Output: 2, 2
+
+-- Clear the cache
+lruCache:Clear()
+print(#lruCache, lruCache.Size) -- Output: 0, 0
+```
+
+### Methods:
+
+- **`LRUCache.new(capacity: number): LRUCache`**
+	- Creates a new `LRUCache` instance with the specified capacity.
+	- **Parameters:**
+		- `capacity` (number): The maximum number of items the cache can
+		  hold.
+	- **Returns:** A new `LRUCache` object.
+
+- **`LRUCache:Get(key: K): V?`**
+	- Retrieves the value associated with the given key.
+	- Marks the key as recently used.
+	- **Parameters:**
+		- `key` (K): The key to look up.
+	- **Returns:** The value associated with the key, or `nil` if not found.
+
+- **`LRUCache:Set(key: K, value: V): void`**
+	- Adds or updates a key-value pair in the cache.
+	- If the key already exists, its value is updated, and it is marked as
+	  recently used.
+	- If adding the new key exceeds the capacity, the least recently used
+	  item is evicted.
+	- **Parameters:**
+		- `key` (K): The key to insert or update.
+		- `value` (V): The value to associate with the key.
+
+- **`LRUCache:Clear(): void`**
+	- Removes all items from the cache.
+
+### Properties:
+
+- **`LRUCache.Capacity: number`** (read-only)
+	- The maximum number of items the cache can hold.
+
+- **`LRUCache.Size: number`**
+	- The current number of items in the cache.
+
+### Tags:
+
+- `Supports Debug Mode`: You can set `_G.__DEV__` to `true` to enable
+  debug mode. This has to be done BEFORE requiring the module.
+- `Supports __len`: You can use the `#` operator to get the current size
+  of the cache.
+- `Supports __tostring`: You can call `tostring` on the cache."><meta data-rh="true" property="og:description" content="The `LRUCache` (Least Recently Used Cache) class implements a fixed-size
+cache that stores key-value pairs. It uses the Least Recently Used eviction
+policy to manage the cache content when the capacity is exceeded. This
+means that when the cache reaches its capacity, it will remove the least
+recently accessed item to make room for new entries.
+
+### Features:
+
+- **Fast Retrieval:** Quickly access cached items using the `Get` method.
+- **Automatic Eviction:** Automatically evicts the least recently used item
+  when adding new entries beyond capacity.
+- **Mutable Size:** Check the current number of items with `Size`.
+- **Capacity Limit:** Set a maximum capacity to control memory usage.
+- **Supports Debug Mode:** You can set `_G.__DEV__` to `true` to enable
+  debug mode. This has to be done BEFORE requiring the module.
+- **Supports `__len`:** Use the length operator `#` to get the cache size.
+- **Supports `__tostring`:** You can call `tostring` on the cache.
+
+### Example Usage:
+
+```lua
+_G.__DEV__ = RunService:IsStudio()
+local DataStructures = require(&quot;DataStructures&quot;)
+
+-- Create a new cache with a capacity of 2
+local lruCache = DataStructures.LRUCache.new(2)
+
+-- Add some key-value pairs
+lruCache:Set(&quot;apple&quot;, &quot;red&quot;)
+lruCache:Set(&quot;banana&quot;, &quot;yellow&quot;)
+
+print(lruCache:Get(&quot;apple&quot;)) -- Output: &quot;red&quot;
+print(lruCache:Get(&quot;banana&quot;)) -- Output: &quot;yellow&quot;
+
+-- Add another item, exceeding the capacity
+lruCache:Set(&quot;cherry&quot;, &quot;red&quot;)
+
+-- Since &quot;apple&quot; was least recently used, it gets evicted
+print(lruCache:Get(&quot;apple&quot;)) -- Output: nil
+print(lruCache:Get(&quot;cherry&quot;)) -- Output: &quot;red&quot;
+
+-- Check the size of the cache
+print(#lruCache, lruCache.Size) -- Output: 2, 2
+
+-- Clear the cache
+lruCache:Clear()
+print(#lruCache, lruCache.Size) -- Output: 0, 0
+```
+
+### Methods:
+
+- **`LRUCache.new(capacity: number): LRUCache`**
+	- Creates a new `LRUCache` instance with the specified capacity.
+	- **Parameters:**
+		- `capacity` (number): The maximum number of items the cache can
+		  hold.
+	- **Returns:** A new `LRUCache` object.
+
+- **`LRUCache:Get(key: K): V?`**
+	- Retrieves the value associated with the given key.
+	- Marks the key as recently used.
+	- **Parameters:**
+		- `key` (K): The key to look up.
+	- **Returns:** The value associated with the key, or `nil` if not found.
+
+- **`LRUCache:Set(key: K, value: V): void`**
+	- Adds or updates a key-value pair in the cache.
+	- If the key already exists, its value is updated, and it is marked as
+	  recently used.
+	- If adding the new key exceeds the capacity, the least recently used
+	  item is evicted.
+	- **Parameters:**
+		- `key` (K): The key to insert or update.
+		- `value` (V): The value to associate with the key.
+
+- **`LRUCache:Clear(): void`**
+	- Removes all items from the cache.
+
+### Properties:
+
+- **`LRUCache.Capacity: number`** (read-only)
+	- The maximum number of items the cache can hold.
+
+- **`LRUCache.Size: number`**
+	- The current number of items in the cache.
+
+### Tags:
+
+- `Supports Debug Mode`: You can set `_G.__DEV__` to `true` to enable
+  debug mode. This has to be done BEFORE requiring the module.
+- `Supports __len`: You can use the `#` operator to get the current size
+  of the cache.
+- `Supports __tostring`: You can call `tostring` on the cache."><link data-rh="true" rel="canonical" href="https://Bura-Games.github.io/game-dev-structures/api/LRUCache"><link data-rh="true" rel="alternate" href="https://Bura-Games.github.io/game-dev-structures/api/LRUCache" hreflang="en"><link data-rh="true" rel="alternate" href="https://Bura-Games.github.io/game-dev-structures/api/LRUCache" hreflang="x-default"><link rel="stylesheet" href="/game-dev-structures/assets/css/styles.e1adec2f.css">
+<link rel="preload" href="/game-dev-structures/assets/js/runtime~main.7585aafe.js" as="script">
+<link rel="preload" href="/game-dev-structures/assets/js/main.82188d18.js" as="script">
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
+<div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/game-dev-structures/"><b class="navbar__title text--truncate">Data Structures</b></a><a class="navbar__item navbar__link" href="/game-dev-structures/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/game-dev-structures/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/Bura-Games/game-dev-structures" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="searchBox_ZlJk"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input type="search" id="search_input_react" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" aria-expanded="true" href="/game-dev-structures/api/LRUCache">Caches</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/game-dev-structures/api/LRUCache">​L​R​U​Cache</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" aria-expanded="false" href="/game-dev-structures/api/LiveRandom">Random</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" aria-expanded="false" href="/game-dev-structures/api/MaxPriorityQueue">Queues</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" aria-expanded="false" href="/game-dev-structures/api/SimpleTrie">Tries</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" aria-expanded="false" href="/game-dev-structures/api/SortedArray">Arrays</a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/game-dev-structures/api/Types">​Types</a></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">L</span><span style="display:inline-block">R</span><span style="display:inline-block">U</span><span style="display:inline-block">Cache</span></h1><div class="luaClassTags_EipM"><span class="docTag__6UZ" style="border-color:#ff793f;color:#ff793f">Supports Debug Mode</span><span class="docTag__6UZ" style="border-color:#925FB9;color:#925FB9">Supports __len</span><span class="docTag__6UZ" style="border-color:#2b8ab6;color:#2b8ab6">Supports __tostring</span></div><div>
+<p>
+  The <code>LRUCache</code> (Least Recently Used Cache) class implements a fixed-size
+  cache that stores key-value pairs. It uses the Least Recently Used eviction
+  policy to manage the cache content when the capacity is exceeded. This
+  means that when the cache reaches its capacity, it will remove the least
+  recently accessed item to make room for new entries.
+</p>
+<h3>Features:</h3>
+<ul>
+  <li><strong>Fast Retrieval:</strong> Quickly access cached items using the <code>Get</code> method.</li>
+  <li>
+    <strong>Automatic Eviction:</strong> Automatically evicts the least recently used item
+    when adding new entries beyond capacity.
+  </li>
+  <li><strong>Mutable Size:</strong> Check the current number of items with <code>Size</code>.</li>
+  <li><strong>Capacity Limit:</strong> Set a maximum capacity to control memory usage.</li>
+  <li>
+    <strong>Supports Debug Mode:</strong> You can set <code>_G.__DEV__</code> to <code>true</code> to enable
+    debug mode. This has to be done BEFORE requiring the module.
+  </li>
+  <li><strong>Supports <code>__len</code>:</strong> Use the length operator <code>#</code> to get the cache size.</li>
+  <li><strong>Supports <code>__tostring</code>:</strong> You can call <code>tostring</code> on the cache.</li>
+</ul>
+<h3>Example Usage:</h3>
+<pre class="language-lua"><code class="language-lua">_G<span class="token punctuation">.</span>__DEV__ <span class="token operator">=</span> RunService<span class="token punctuation">:</span><span class="token function">IsStudio</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">local</span> DataStructures <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"DataStructures"</span><span class="token punctuation">)</span>
+
+<span class="token comment">-- Create a new cache with a capacity of 2</span>
+<span class="token keyword">local</span> lruCache <span class="token operator">=</span> DataStructures<span class="token punctuation">.</span>LRUCache<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+
+<span class="token comment">-- Add some key-value pairs</span>
+lruCache<span class="token punctuation">:</span><span class="token function">Set</span><span class="token punctuation">(</span><span class="token string">"apple"</span><span class="token punctuation">,</span> <span class="token string">"red"</span><span class="token punctuation">)</span>
+lruCache<span class="token punctuation">:</span><span class="token function">Set</span><span class="token punctuation">(</span><span class="token string">"banana"</span><span class="token punctuation">,</span> <span class="token string">"yellow"</span><span class="token punctuation">)</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span>lruCache<span class="token punctuation">:</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"apple"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">-- Output: "red"</span>
+<span class="token function">print</span><span class="token punctuation">(</span>lruCache<span class="token punctuation">:</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"banana"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">-- Output: "yellow"</span>
+
+<span class="token comment">-- Add another item, exceeding the capacity</span>
+lruCache<span class="token punctuation">:</span><span class="token function">Set</span><span class="token punctuation">(</span><span class="token string">"cherry"</span><span class="token punctuation">,</span> <span class="token string">"red"</span><span class="token punctuation">)</span>
+
+<span class="token comment">-- Since "apple" was least recently used, it gets evicted</span>
+<span class="token function">print</span><span class="token punctuation">(</span>lruCache<span class="token punctuation">:</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"apple"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">-- Output: nil</span>
+<span class="token function">print</span><span class="token punctuation">(</span>lruCache<span class="token punctuation">:</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"cherry"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">-- Output: "red"</span>
+
+<span class="token comment">-- Check the size of the cache</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token operator">#</span>lruCache<span class="token punctuation">,</span> lruCache<span class="token punctuation">.</span>Size<span class="token punctuation">)</span> <span class="token comment">-- Output: 2, 2</span>
+
+<span class="token comment">-- Clear the cache</span>
+lruCache<span class="token punctuation">:</span><span class="token function">Clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token operator">#</span>lruCache<span class="token punctuation">,</span> lruCache<span class="token punctuation">.</span>Size<span class="token punctuation">)</span> <span class="token comment">-- Output: 0, 0</span>
+</code></pre>
+<h3>Methods:</h3>
+<ul>
+  <li>
+    <p><strong><code>LRUCache.new(capacity: number): LRUCache</code></strong></p>
+    <ul>
+      <li>Creates a new <code>LRUCache</code> instance with the specified capacity.</li>
+      <li><strong>Parameters:</strong>
+        <ul>
+          <li>
+            <code>capacity</code> (number): The maximum number of items the cache can
+            hold.
+          </li>
+        </ul>
+      </li>
+      <li><strong>Returns:</strong> A new <code>LRUCache</code> object.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code>LRUCache:Get(key: K): V?</code></strong></p>
+    <ul>
+      <li>Retrieves the value associated with the given key.</li>
+      <li>Marks the key as recently used.</li>
+      <li><strong>Parameters:</strong>
+        <ul>
+          <li><code>key</code> (K): The key to look up.</li>
+        </ul>
+      </li>
+      <li><strong>Returns:</strong> The value associated with the key, or <code>nil</code> if not found.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code>LRUCache:Set(key: K, value: V): void</code></strong></p>
+    <ul>
+      <li>Adds or updates a key-value pair in the cache.</li>
+      <li>
+        If the key already exists, its value is updated, and it is marked as
+        recently used.
+      </li>
+      <li>
+        If adding the new key exceeds the capacity, the least recently used
+        item is evicted.
+      </li>
+      <li><strong>Parameters:</strong>
+        <ul>
+          <li><code>key</code> (K): The key to insert or update.</li>
+          <li><code>value</code> (V): The value to associate with the key.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code>LRUCache:Clear(): void</code></strong></p>
+    <ul>
+      <li>Removes all items from the cache.</li>
+    </ul>
+  </li>
+</ul>
+<h3>Properties:</h3>
+<ul>
+  <li>
+    <p><strong><code>LRUCache.Capacity: number</code></strong> (read-only)</p>
+    <ul>
+      <li>The maximum number of items the cache can hold.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code>LRUCache.Size: number</code></strong></p>
+    <ul>
+      <li>The current number of items in the cache.</li>
+    </ul>
+  </li>
+</ul>
+<h3>Tags:</h3>
+<ul>
+  <li>
+    <code>Supports Debug Mode</code>: You can set <code>_G.__DEV__</code> to <code>true</code> to enable
+    debug mode. This has to be done BEFORE requiring the module.
+  </li>
+  <li>
+    <code>Supports __len</code>: You can use the <code>#</code> operator to get the current size
+    of the cache.
+  </li>
+  <li><code>Supports __tostring</code>: You can call <code>tostring</code> on the cache.</li>
+</ul>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a href="#properties" class="hash-link" aria-label="Direct link to Properties" title="Direct link to Properties">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Capacity"><code style="text-decoration:none">Capacity</code><a href="#Capacity" class="hash-link" aria-label="Direct link to Capacity" title="Direct link to Capacity">​</a></h3><span class="badge_Ba2I" style="color:#e74c3c"><span class="badgeTooltip_cWXP">This item is read only and cannot be modified.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" height="300px" width="300px" fill="#e74c3c" x="0px" y="0px" viewBox="0 0 96 96"><path d="M70.354,15.662h-7.496H25.566c-3.282,0-5.19-0.776-5.728-1.169v-1.456c0.538-0.393,2.445-1.168,5.728-1.168h46.479V8H25.566  c-4.776,0-9.594,1.468-9.594,4.747v61.458C15.972,86.645,20.328,88,37.495,88h42.535V15.662H70.354z"></path></svg> <!-- -->Read Only</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Caches/LRUCache.luau#L170"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>LRUCache<!-- -->.<!-- -->Capacity<!-- -->:<!-- --> </code> <code class="blue_P4bS">integer</code></div><div>
+<p>The maximum number of items the cache can hold.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Size"><code style="text-decoration:none">Size</code><a href="#Size" class="hash-link" aria-label="Direct link to Size" title="Direct link to Size">​</a></h3><span class="badge_Ba2I" style="color:#e74c3c"><span class="badgeTooltip_cWXP">This item is read only and cannot be modified.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" height="300px" width="300px" fill="#e74c3c" x="0px" y="0px" viewBox="0 0 96 96"><path d="M70.354,15.662h-7.496H25.566c-3.282,0-5.19-0.776-5.728-1.169v-1.456c0.538-0.393,2.445-1.168,5.728-1.168h46.479V8H25.566  c-4.776,0-9.594,1.468-9.594,4.747v61.458C15.972,86.645,20.328,88,37.495,88h42.535V15.662H70.354z"></path></svg> <!-- -->Read Only</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Caches/LRUCache.luau#L176"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>LRUCache<!-- -->.<!-- -->Size<!-- -->:<!-- --> </code> <code class="blue_P4bS">integer</code></div><div>
+<p>The current number of items in the cache.</p>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a href="#new" class="hash-link" aria-label="Direct link to new" title="Direct link to new">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Caches/LRUCache.luau#L198"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>LRUCache<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><div class="inset_uKQm"><div><code>capacity<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+<p>The maximum number of items the cache can hold.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/game-dev-structures/api/LRUCache">LRUCache</a></code><code class="op_lSLc">&lt;</code><code class="blue_P4bS">K,</code><code class="blue_P4bS">V</code><code class="op_lSLc">&gt;</code></div><div>
+<p>Creates a new LRU cache.</p>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>DebugTypeError</td><td>Thrown when you are using debug mode and you pass an incorrect type.</td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Is"><code style="text-decoration:none">Is</code><a href="#Is" class="hash-link" aria-label="Direct link to Is" title="Direct link to Is">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Caches/LRUCache.luau#L234"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>LRUCache<!-- -->.</code><code class="green_DgR4">Is</code><code>(</code><code>value<!-- -->: </code><code class="blue_P4bS">unknown</code><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>Checks if <code>value</code> is literally an LRUCache.</p>
+<pre class="language-lua"><code class="language-lua">LRUCache<span class="token punctuation">.</span><span class="token function">Is</span><span class="token punctuation">(</span>LRUCache<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">-- true</span>
+LRUCache<span class="token punctuation">.</span><span class="token function">Is</span><span class="token punctuation">(</span>LRUCache<span class="token punctuation">)</span> <span class="token comment">-- false</span>
+LRUCache<span class="token punctuation">.</span><span class="token function">Is</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token comment">-- false</span>
+LRUCache<span class="token punctuation">.</span><span class="token function">Is</span><span class="token punctuation">(</span><span class="token keyword">nil</span><span class="token punctuation">)</span> <span class="token comment">-- false</span>
+LRUCache<span class="token punctuation">.</span><span class="token function">Is</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">-- false</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="instanceof"><code style="text-decoration:none">instanceof</code><a href="#instanceof" class="hash-link" aria-label="Direct link to instanceof" title="Direct link to instanceof">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Caches/LRUCache.luau#L246"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>LRUCache<!-- -->.</code><code class="green_DgR4">instanceof</code><code>(</code><code>value<!-- -->: </code><code class="blue_P4bS">unknown</code><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>An alias for <a href="/game-dev-structures/api/LRUCache#Is">LRUCache.Is</a>.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Get"><code style="text-decoration:none">Get</code><a href="#Get" class="hash-link" aria-label="Direct link to Get" title="Direct link to Get">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Caches/LRUCache.luau#L323"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>LRUCache<!-- -->:</code><code class="green_DgR4">Get</code><code>(</code><div class="inset_uKQm"><div><code>key<!-- -->: </code><code class="blue_P4bS">K</code><span class="inlineDescription_G7Er">-- <span>
+<p>The key to get the value for.</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">V?</code></div><div>
+<p>Gets the value associated with the given key.</p>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>DebugTypeError</td><td>Thrown when you are using debug mode and you pass an incorrect type.</td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Set"><code style="text-decoration:none">Set</code><a href="#Set" class="hash-link" aria-label="Direct link to Set" title="Direct link to Set">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Caches/LRUCache.luau#L355"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>LRUCache<!-- -->:</code><code class="green_DgR4">Set</code><code>(</code><div class="inset_uKQm"><div><code>key<!-- -->: </code><code class="blue_P4bS">K</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The key to set the value to.</p>
+</span></span></div><div><code>value<!-- -->: </code><code class="blue_P4bS">V</code><span class="inlineDescription_G7Er">-- <span>
+<p>The value to set.</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Sets the value to the given key.</p>
+</div><h3>Errors</h3><table class="errorTable_jfN8"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>DebugTypeError</td><td>Thrown when you are using debug mode and you pass an incorrect type.</td></tr></tbody></table><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Clear"><code style="text-decoration:none">Clear</code><a href="#Clear" class="hash-link" aria-label="Direct link to Clear" title="Direct link to Clear">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Bura-Games/game-dev-structures/blob/main/src/Caches/LRUCache.luau#L389"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>LRUCache<!-- -->:</code><code class="green_DgR4">Clear</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Clears the cache.</p>
+</div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;new&quot;,
+            &quot;desc&quot;: &quot;Creates a new LRU cache.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;capacity&quot;,
+                    &quot;desc&quot;: &quot;The maximum number of items the cache can hold.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;LRUCache&lt;K, V&gt;&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;DebugTypeError&quot;,
+                    &quot;desc&quot;: &quot;Thrown when you are using debug mode and you pass an incorrect type.&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 198,
+                &quot;path&quot;: &quot;src/Caches/LRUCache.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Is&quot;,
+            &quot;desc&quot;: &quot;Checks if `value` is literally an LRUCache.\n\n```lua\nLRUCache.Is(LRUCache.new(10)) -- true\nLRUCache.Is(LRUCache) -- false\nLRUCache.Is({}) -- false\nLRUCache.Is(nil) -- false\nLRUCache.Is(1) -- false\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;unknown&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 234,
+                &quot;path&quot;: &quot;src/Caches/LRUCache.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;instanceof&quot;,
+            &quot;desc&quot;: &quot;An alias for [LRUCache.Is].&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;unknown&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 246,
+                &quot;path&quot;: &quot;src/Caches/LRUCache.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Get&quot;,
+            &quot;desc&quot;: &quot;Gets the value associated with the given key.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;key&quot;,
+                    &quot;desc&quot;: &quot;The key to get the value for.&quot;,
+                    &quot;lua_type&quot;: &quot;K&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;V?&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;DebugTypeError&quot;,
+                    &quot;desc&quot;: &quot;Thrown when you are using debug mode and you pass an incorrect type.&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 323,
+                &quot;path&quot;: &quot;src/Caches/LRUCache.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Set&quot;,
+            &quot;desc&quot;: &quot;Sets the value to the given key.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;key&quot;,
+                    &quot;desc&quot;: &quot;The key to set the value to.&quot;,
+                    &quot;lua_type&quot;: &quot;K&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;value&quot;,
+                    &quot;desc&quot;: &quot;The value to set.&quot;,
+                    &quot;lua_type&quot;: &quot;V&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;errors&quot;: [
+                {
+                    &quot;lua_type&quot;: &quot;DebugTypeError&quot;,
+                    &quot;desc&quot;: &quot;Thrown when you are using debug mode and you pass an incorrect type.&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 355,
+                &quot;path&quot;: &quot;src/Caches/LRUCache.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Clear&quot;,
+            &quot;desc&quot;: &quot;Clears the cache.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 389,
+                &quot;path&quot;: &quot;src/Caches/LRUCache.luau&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [
+        {
+            &quot;name&quot;: &quot;Capacity&quot;,
+            &quot;desc&quot;: &quot;The maximum number of items the cache can hold.&quot;,
+            &quot;lua_type&quot;: &quot;integer&quot;,
+            &quot;readonly&quot;: true,
+            &quot;source&quot;: {
+                &quot;line&quot;: 170,
+                &quot;path&quot;: &quot;src/Caches/LRUCache.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Size&quot;,
+            &quot;desc&quot;: &quot;The current number of items in the cache.&quot;,
+            &quot;lua_type&quot;: &quot;integer&quot;,
+            &quot;readonly&quot;: true,
+            &quot;source&quot;: {
+                &quot;line&quot;: 176,
+                &quot;path&quot;: &quot;src/Caches/LRUCache.luau&quot;
+            }
+        }
+    ],
+    &quot;types&quot;: [],
+    &quot;name&quot;: &quot;LRUCache&quot;,
+    &quot;desc&quot;: &quot;The `LRUCache` (Least Recently Used Cache) class implements a fixed-size\ncache that stores key-value pairs. It uses the Least Recently Used eviction\npolicy to manage the cache content when the capacity is exceeded. This\nmeans that when the cache reaches its capacity, it will remove the least\nrecently accessed item to make room for new entries.\n\n### Features:\n\n- **Fast Retrieval:** Quickly access cached items using the `Get` method.\n- **Automatic Eviction:** Automatically evicts the least recently used item\n  when adding new entries beyond capacity.\n- **Mutable Size:** Check the current number of items with `Size`.\n- **Capacity Limit:** Set a maximum capacity to control memory usage.\n- **Supports Debug Mode:** You can set `_G.__DEV__` to `true` to enable\n  debug mode. This has to be done BEFORE requiring the module.\n- **Supports `__len`:** Use the length operator `#` to get the cache size.\n- **Supports `__tostring`:** You can call `tostring` on the cache.\n\n### Example Usage:\n\n```lua\n_G.__DEV__ = RunService:IsStudio()\nlocal DataStructures = require(\&quot;DataStructures\&quot;)\n\n-- Create a new cache with a capacity of 2\nlocal lruCache = DataStructures.LRUCache.new(2)\n\n-- Add some key-value pairs\nlruCache:Set(\&quot;apple\&quot;, \&quot;red\&quot;)\nlruCache:Set(\&quot;banana\&quot;, \&quot;yellow\&quot;)\n\nprint(lruCache:Get(\&quot;apple\&quot;)) -- Output: \&quot;red\&quot;\nprint(lruCache:Get(\&quot;banana\&quot;)) -- Output: \&quot;yellow\&quot;\n\n-- Add another item, exceeding the capacity\nlruCache:Set(\&quot;cherry\&quot;, \&quot;red\&quot;)\n\n-- Since \&quot;apple\&quot; was least recently used, it gets evicted\nprint(lruCache:Get(\&quot;apple\&quot;)) -- Output: nil\nprint(lruCache:Get(\&quot;cherry\&quot;)) -- Output: \&quot;red\&quot;\n\n-- Check the size of the cache\nprint(#lruCache, lruCache.Size) -- Output: 2, 2\n\n-- Clear the cache\nlruCache:Clear()\nprint(#lruCache, lruCache.Size) -- Output: 0, 0\n```\n\n### Methods:\n\n- **`LRUCache.new(capacity: number): LRUCache`**\n\t- Creates a new `LRUCache` instance with the specified capacity.\n\t- **Parameters:**\n\t\t- `capacity` (number): The maximum number of items the cache can\n\t\t  hold.\n\t- **Returns:** A new `LRUCache` object.\n\n- **`LRUCache:Get(key: K): V?`**\n\t- Retrieves the value associated with the given key.\n\t- Marks the key as recently used.\n\t- **Parameters:**\n\t\t- `key` (K): The key to look up.\n\t- **Returns:** The value associated with the key, or `nil` if not found.\n\n- **`LRUCache:Set(key: K, value: V): void`**\n\t- Adds or updates a key-value pair in the cache.\n\t- If the key already exists, its value is updated, and it is marked as\n\t  recently used.\n\t- If adding the new key exceeds the capacity, the least recently used\n\t  item is evicted.\n\t- **Parameters:**\n\t\t- `key` (K): The key to insert or update.\n\t\t- `value` (V): The value to associate with the key.\n\n- **`LRUCache:Clear(): void`**\n\t- Removes all items from the cache.\n\n### Properties:\n\n- **`LRUCache.Capacity: number`** (read-only)\n\t- The maximum number of items the cache can hold.\n\n- **`LRUCache.Size: number`**\n\t- The current number of items in the cache.\n\n### Tags:\n\n- `Supports Debug Mode`: You can set `_G.__DEV__` to `true` to enable\n  debug mode. This has to be done BEFORE requiring the module.\n- `Supports __len`: You can use the `#` operator to get the current size\n  of the cache.\n- `Supports __tostring`: You can call `tostring` on the cache.&quot;,
+    &quot;tags&quot;: [
+        &quot;Supports Debug Mode&quot;,
+        &quot;Supports __len&quot;,
+        &quot;Supports __tostring&quot;
+    ],
+    &quot;source&quot;: {
+        &quot;line&quot;: 159,
+        &quot;path&quot;: &quot;src/Caches/LRUCache.luau&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#Capacity" class="table-of-contents__link toc-highlight">Capacity</a></li><li><a href="#Size" class="table-of-contents__link toc-highlight">Size</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#Clear" class="table-of-contents__link toc-highlight">:Clear</a></li><li><a href="#Get" class="table-of-contents__link toc-highlight">:Get</a></li><li><a href="#Set" class="table-of-contents__link toc-highlight">:Set</a></li><li><a href="#instanceof" class="table-of-contents__link toc-highlight">.instanceof</a></li><li><a href="#Is" class="table-of-contents__link toc-highlight">.Is</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 Bura Games. Made with Moonwave.</div></div></div></footer></div>
+<script src="/game-dev-structures/assets/js/runtime~main.7585aafe.js"></script>
+<script src="/game-dev-structures/assets/js/main.82188d18.js"></script>
+</body>
+</html>
